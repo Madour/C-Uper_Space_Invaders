@@ -3,9 +3,7 @@
 
 #### Dépendences ####
 - X11
-- portaudio
-- sndfile
-
+- SDL_mixer
 
 #### Compilation ####
 Se placer à la racine du répertoire et lancer la commande `make`
@@ -30,6 +28,6 @@ Si vous voulez jouer au niveau 4 par exemple, lancez la commande `./space 4`
 	3. recompilez avec la commande `make`
 
 ---
-###### Contributors ######
+##### Contributors #####
 > Modar NASSER
 > Paul FOURCADE (gameplay du boss)
