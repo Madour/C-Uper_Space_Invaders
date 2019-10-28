@@ -1,4 +1,4 @@
-# C-uper Space Invader #
+# C-uper Space Invader :rocket: #
 ---
 
 #### Dépendences ####
