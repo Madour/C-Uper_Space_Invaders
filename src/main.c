@@ -22,17 +22,13 @@
 \______________________________________________________/
 
 */
-
+#include <SDL2/SDL_mixer.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "boss.h"
 #include "levels.h"
 #include "alphabet.h"
-
-#include "audio.h"
-
-
 
 int main(int argc, char const *argv[])
 {
@@ -42,21 +38,18 @@ int main(int argc, char const *argv[])
 	// user_name stockera le nom de l'utilisateur s'il souhaite enregister son score
 	char user_name[11]; 
 	FILE* score_file;
+	
 	// Bloc Lecture du fichier audio
-	
-	SNDFILE *file;
-	PaStream *stream;
-	PaError error;
-	callback_data_s data;
 	const char* audiofile = "assets/bgm.wav";
+	int volume = 128;
 	int audio_fade_out = 0;
+	printf("initialisation audio ...\n");
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	printf("terminé.\n");
+    Mix_Music* bgm = Mix_LoadMUS(audiofile);
+	Mix_PlayMusic(bgm, -1);
+	// fin de lecture
 	
-	// Open the soundfile
-	Pa_Initialize();
-
-	play_audio(audiofile ,&stream, &data, &audio_fade_out);
-
-
 	// si l'utilisateur tente de selectionner un niveau
 	if (argc > 1)
 		if(*argv[1] -'0' < LEVELS_NB+1)
@@ -110,8 +103,6 @@ int main(int argc, char const *argv[])
 	// chargement du niveau
 	load_level(&current_level, level_index, alien_list, shields_list, &boss);
 
-
-
 	if(initAffichage(WIN_W, WIN_H) == -1)
 	{
 		printf("Erreur lors de l'initialisation graphique\n");
@@ -123,11 +114,8 @@ int main(int argc, char const *argv[])
 	{
 		defilerFond(0, background_scroll_speed);
 
-		// on loop le fichier audio
-		if(!Pa_IsStreamActive(stream))
-		{
-			play_audio(audiofile, &stream, &data, &audio_fade_out);
-		}
+		if(audio_fade_out)
+			Mix_VolumeMusic(--volume);
 
 		// affichage du score en haut à droite
 		if(!current_level.boss_id && !finished_game)
@@ -319,7 +307,7 @@ int main(int argc, char const *argv[])
 			if(background_scroll_speed > 10){
 				background_scroll_speed-=5;
 			}
-			if(intersect_boss(player.missile_pos, &boss) && boss.alive)
+			if(intersect_boss(player.missile_pos, &boss) && boss.alive && player.alive)
 			{
 				if(!boss.triggered && boss.ready)
 				{
@@ -327,11 +315,13 @@ int main(int argc, char const *argv[])
 					hearts_pos.y = WIN_H - 14*RATIO;
 					boss.glowing = 1;
 					boss.glow_color = NOIR;
-					Pa_CloseStream(stream);
-					audiofile = "assets/boss.wav";
-					play_audio(audiofile, &stream, &data, &audio_fade_out);
+					
+					audiofile = "assets/boss.ogg";
+					bgm = Mix_LoadMUS(audiofile);
+					Mix_PlayMusic(bgm, -1);
+					volume = 128;
+					Mix_VolumeMusic(volume);
 					audio_fade_out = 0;
-					data.volume = 1;
 				}
 				else if(boss.ready)
 				{
@@ -384,7 +374,7 @@ int main(int argc, char const *argv[])
 			if(boss.triggered)
 			{
 				if(player.alive)
-					doActionBoss(&boss);
+					doActionBoss(&boss); // le boss décide s'il doit tirer ou pas
 				for (int i = 0; i < boss.alive; ++i)
 					afficheSprite(player_life, i*hearts_pos.x, 0, VIOLET);
 			}
@@ -424,7 +414,6 @@ int main(int argc, char const *argv[])
 						wave_text_pos.y -=40;
 						wave_text_pos.x -= wave_text_speed;
 					}
-
 				}
 				else
 				{	
@@ -446,7 +435,6 @@ int main(int argc, char const *argv[])
 						displayMessage(msg, wave_text_pos, BLANC);
 					}
 					wave_text_pos.x -= wave_text_speed;
-
 				}
 			}
 			else
@@ -594,12 +582,15 @@ int main(int argc, char const *argv[])
 			animEntity(&player, player.anim_speed);
 		}
 	}
-	Pa_Terminate();
 
 	// on est sortie de la boucle du jeu, la partie est donc terminé
 	// on demande à l'utilisateur s'il souhaite sauvagerder son score avant de quitter
 	printf("Votre score : %d\n", score);
-	if(level_index == LEVELS_NB-1 && finished_game)
+	if(level_index == LEVELS_NB && finished_game)
+	{
+		printf("Vous êtes le maître de l'espace !\n");
+	}
+	else if(level_index == LEVELS_NB-1 && finished_game)
 		printf("Félicitations ! Vous avez fini le jeu !\n");
 	else
 		printf("Vous êtes arrivé au niveau %d sur %d\n", level_index, LEVELS_NB-1);

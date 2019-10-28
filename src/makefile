@@ -1,11 +1,11 @@
 CC = gcc
 CC_FLAGS = -Wall
 
-C_FILES = affichage.c entities.c alien.c sprites.c levels.c alphabet.c main.c audio.c boss.c
+C_FILES = affichage.c entities.c alien.c sprites.c levels.c alphabet.c main.c boss.c
 O_FILES = $(C_FILES:.c=.o)
 H_FILES = $(C_FILES:.c=.h)
 
-LIBS_NAME = -lX11 -lportaudio -lsndfile
+LIBS_NAME = -lX11 -lSDL2_mixer
 LIBS_PATH = 
 
 PRGM = space
