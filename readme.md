@@ -16,6 +16,7 @@ Ouvrez un terminal à la racine du répertoire et lancez la commande `./space`
 
 Si vous voulez jouer au niveau 4 par exemple, lancez la commande `./space 4`
 
+Une surprise vous attend à la fin du jeu si vous arrivez à vaincre la Final Wave ;)
 
 #### Troubleshooting ####
 - Si le compilateur ne trouve pas les librairies :
