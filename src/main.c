@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
 	FILE* score_file;
 	
 	// Bloc Lecture du fichier audio
-	const char* audiofile = "assets/bgm.wav";
+	const char* audiofile = "assets/bgm.ogg";
 	int volume = 128;
 	int audio_fade_out = 0;
 	printf("initialisation audio ...\n");
