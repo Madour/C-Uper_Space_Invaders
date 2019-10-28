@@ -561,6 +561,8 @@ int main(int argc, char const *argv[])
 					break;
 
 				case 4:
+					game_over_pos.x=150;
+					game_over.y=-100;
 					level_index+=1;
 					load_level(&current_level, level_index, alien_list, shields_list, &boss);
 					show_wave_nb = 1;
