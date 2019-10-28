@@ -29,5 +29,5 @@ Si vous voulez jouer au niveau 4 par exemple, lancez la commande `./space 4`
 
 ---
 ##### Contributors #####
-> Modar NASSER
-> Paul FOURCADE (gameplay du boss)
+- Modar NASSER
+- Paul FOURCADE (gameplay du boss)
