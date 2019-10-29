@@ -22,6 +22,7 @@
 \______________________________________________________/
 
 */
+//#include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -205,7 +206,7 @@ int main(int argc, char const *argv[])
 				if (alien_list[i][j].missile)
 				{	
 					//si un missile alien touche le joueur, on enleve un coeur au joueur
-					if(intersect(alien_list[i][j].missile_pos, &player))
+					if(intersect(alien_list[i][j].missile_pos, &player) && player.alive)
 					{
 						if(player.alive)
 							player.alive -= 1;
@@ -439,6 +440,7 @@ int main(int argc, char const *argv[])
 			}
 			else
 			{
+				background_scroll_speed = 2;
 				show_wave_nb = 0;
 				wave_text_pos.x = 400;
 			}
