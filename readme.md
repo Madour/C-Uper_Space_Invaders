@@ -1,11 +1,11 @@
-# C-uper Space Invaders :rocket: #
+# C-uper Space Invaders :rocket: 
 ---
-### Plateforms ###
+### Plateforms
 
-#### Linux et MacOS ####
+#### Linux et MacOS
 Il suffit d'installer les dépendances pour pouvoir compiler.
 
-#### Windows ####
+#### Windows
 Pour compiler sur windows, il vous faudra :
 - Un environnement Unix (via Cygwin par exemple)
 - Installer les dépendances
@@ -13,24 +13,25 @@ Pour compiler sur windows, il vous faudra :
 
 ---
 
-### Dependencies ###
+### Dependencies
 - X11
 - SDL_mixer
 
-### Compilation ###
+### Compilation
 Se placer à la racine du répertoire et lancer la commande `make`
 
 Si tout se passe bien, un executable "space" sera genéré
 
 
-### Execution ###
+### Execution
 Ouvrez un terminal à la racine du répertoire et lancez la commande `./space`
 
 Si vous voulez jouer au niveau 4 par exemple, lancez la commande `./space 4`
 
 Une surprise vous attend à la fin du jeu si vous arrivez à vaincre la Final Wave ;)
 
-### Troubleshooting ###
+### Troubleshooting
+
 - Si le compilateur ne trouve pas les librairies :
 	1. ouvrir le fichier src/makefile
 	2. modifier la variable LIBS_PATH en ajoutant le chemin vers les lib (ne pas oublier `-L`)
@@ -41,6 +42,6 @@ Une surprise vous attend à la fin du jeu si vous arrivez à vaincre la Final Wa
 	3. recompilez avec la commande `make`
 
 ---
-##### Contributors #####
+##### Contributors
 - Modar NASSER
 - Paul FOURCADE (gameplay du boss)
