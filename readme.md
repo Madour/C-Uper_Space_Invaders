@@ -1,4 +1,4 @@
-# C-uper Space Invader :rocket: #
+# C-uper Space Invaders :rocket: #
 ---
 ### Plateforms ###
 
