@@ -330,8 +330,5 @@ int miseAJourAffichage( int tempo_affichage)
 	XCopyArea( display, fond1, pix, gc, 0,0, Largeur,Hauteur, fond1_x, fond1_y);
 	XCopyArea( display, fond2, pix, gc, 0,0, Largeur,Hauteur, fond2_x, fond2_y);
 
-
-
 	return retour;
 }
-
