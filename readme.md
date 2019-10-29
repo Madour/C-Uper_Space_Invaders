@@ -13,7 +13,7 @@ Pour compiler sur windows, il vous faudra :
 
 ---
 
-### Dépendencies ###
+### Dependencies ###
 - X11
 - SDL_mixer
 
