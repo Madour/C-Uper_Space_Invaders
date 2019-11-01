@@ -1,5 +1,6 @@
 # C-uper Space Invaders :rocket: 
----
+
+
 ### Plateforms
 
 #### Linux et MacOS
@@ -40,8 +41,10 @@ Une surprise vous attend à la fin du jeu si vous arrivez à vaincre la Final Wa
 	1. lancez la commande `make clean`
 	2. lancez la commande `find src -exec touch \{\} \;`
 	3. recompilez avec la commande `make`
-
 ---
-##### Contributors
-- Modar NASSER
-- Paul FOURCADE (gameplay du boss)
+
+### Todo
+
+- [x] Implement 2 players
+- [ ] Add a main menu
+- [ ] Add power ups
