@@ -1,7 +1,7 @@
 CC = gcc
 CC_FLAGS = -Wall
 
-C_FILES = affichage.c entities.c alien.c sprites.c levels.c alphabet.c main.c boss.c
+C_FILES = window.c entities.c alien.c sprites.c levels.c alphabet.c main.c boss.c
 O_FILES = $(C_FILES:.c=.o)
 H_FILES = $(C_FILES:.c=.h)
 

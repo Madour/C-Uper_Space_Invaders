@@ -2,7 +2,7 @@
 #define __LETERS_H__ 
 
 #include <string.h>
-#include "affichage.h"
+#include "window.h"
 t_sprite spr_space;
 t_sprite spr_A;
 t_sprite spr_B;

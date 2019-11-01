@@ -12,24 +12,11 @@
 * pour le space-invaders, ainsi que les types prédéfinis
 *
 *======================================================================
-*
-* Remarque: l'utilisation de affichage.o pour l'édition de lien
-*           implique l'utilisation de l'option "-lX11 -L/usr/X11R6/lib"
-*           pour l'utilisation de gcc (cela indique que l'on utilise la
-*           librairie X11 de linux, responsable de l'affichage)
-*           Ainsi, pour faire correctement l'édition de lien, il faut
-*           rajouter "-lX11 -L/usr/X11R6/lib" à la fin de la commande,
-*           par exemple :
-*
-*           gcc -o space.out main.o affichage.o alien.o 
-*			 -lX11 -L/usr/X11R6/lib
-*
 */
-
 
 #ifndef __AFFICHAGE_H__
 #define __AFFICHAGE_H__
-
+#include <time.h>
 
 /* Définition d'un sprite
 un sprite est définie par un tableau de 0 et de 1.
@@ -40,10 +27,18 @@ Les sprites sont de taille fixe (ici 11x8) et en une seule couleur */
 #define RATIO 4 // un pixel est affiché sur 4x4 pixels
 
 #define WIN_W 400
-#define WIN_H 600
+#define WIN_H 644
 
 #define RIGHT_BOUNDARY 380 // limite droite de l'écran
 #define LEFT_BOUNDARY 20 // limite gauche de l'écran
+
+#define INPUT_SIZE 4
+#define KEY_LEFT 1
+#define KEY_RIGHT 2
+#define KEY_SPACE 3
+
+int input_list[2][INPUT_SIZE];
+int free_inputs[2];
 
 typedef int t_sprite[SPRITE_Y][SPRITE_X];
 
@@ -69,8 +64,16 @@ typedef struct
 #define GRISCLAIR 9
 #define GRISFONCE 10
 
+typedef struct {
+    int width;
+    int height;
+    int is_open;
+    int update_rate;
+    int input_list[2][INPUT_SIZE];
+    int players_nb;
+} new_game;
 
-
+new_game game;
 /* Fonction initAffichage
 But: Permet d'initialiser tout l'affichage X11, de créer la fenêtre, les pixmap, les couleurs, etc...
 Paramètres:
@@ -78,7 +81,6 @@ Paramètres:
   - H : hauteur (en Y) de la fenêtre
 Retour: renvoit 0 si tout c'est bien passé, et -1 en cas d'erreur */
 int initAffichage(int L, int H);
-
 
 
 /* Fonction "afficheSprite"
@@ -90,23 +92,16 @@ Paramètres:
 Les coordonnées correspondent au coin supérieur gauche du sprite. De plus, le sprite a pour dimension 4*SPRITE_X et 4*SPRITE_Y pixels  */
 void afficheSprite( t_sprite sprite, int x, int y, int coul);
 
+// returns -1 when escape pressed, return 0 otherwise
+int getInputs();
 
-
-/* Fonction miseAJourAffichage
-But: Gère tous les évènements graphiques (déplacement de fenêtre, touches pressées, etc...). L'affichage ne se fait réellement QUE quand cette fonction est appelée.
-Paramètres:
- - tempo_affichage : temporisation en micro-secondes (à régler en fonction de la machine et de la fluidité voulue. Entre 50 et 200 par exemple).
-Retour: renvoit une valeur dépendant de la touche pressée par l'utilisateur
-   -1 si l'utilisateur a pressé la touche ESC
-   1 pour la flèche gauche "<-"
-   2 pour la flèche droite "->"
-   3 pour la touche "espace"
-   0 si aucune touche n'a été pressée */
-int miseAJourAffichage( int tempo_affichage);
-
+int updateWindow();
 
 void defilerFond(int vit_x, int vit_y);
 
+int in_input_list(int key, int player_nb);
+int get_input_index(int key, int player_nb);
+void pop(int list[INPUT_SIZE], int index);
+int get_last_input(int player_nb);
 
 #endif
-	

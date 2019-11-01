@@ -1,7 +1,7 @@
 #ifndef __SPRITES_H__
 #define __SPRITES_H__
 
-#include "affichage.h"
+#include "window.h"
 #define BOSS_SPRITES_COUNT_X 3
 #define BOSS_SPRITES_COUNT_Y 2
 
@@ -9,7 +9,7 @@
 t_sprite missile_sprite;
 t_sprite impact_sprite;
 
-t_sprite player_life;
+t_sprite heart_sprite;
 t_spritesheet player_spritesheet;
 t_spritesheet player_glow_spritesheet;
 t_spritesheet player_reactor;

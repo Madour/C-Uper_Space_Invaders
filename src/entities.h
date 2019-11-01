@@ -2,8 +2,6 @@
 #define __ENTITIES_H__ 
 
 #include "sprites.h"
-#define X_STEP 3*RATIO
-
 
 
 #define PLAYER 0
@@ -14,43 +12,44 @@
 // la manipulation des aliens et du joueur
 typedef struct 
 {
-	char type; // PLAYER ou ALIEN
-	int id; // identitfiant de l'entité, utile pour differencier les aliens
+    char type; // PLAYER ou ALIEN
+    int id; // identitfiant de l'entité, utile pour differencier les aliens
 
-	tuple pos;
-	tuple size; // taille du sprite (fixée dans ce projet)
-	
-	int color; // la couleur du sprite
+    tuple pos;
+    tuple velocity;
+    tuple size; // taille du sprite (fixée dans ce projet)
 
-	t_sprite* sprite;          // sprite qui sera affiché
-	t_sprite* glow_sprite;     // sprite de la lueur autour de l'entité
-	
-	t_sprite* spritesheet[SHEET_LEN];      // feuille de sprite principale
-	t_sprite* glow_spritesheet[SHEET_LEN]; // feuille de sprite de la lueur
-	
-	// vaut 1 si il faut afficher une leur, vaut 0 par défaut
-	int glowing; 
+    int color; // la couleur du sprite
 
-	// permet de définir les positions des contours externes de l'entité
-	int left;
-	int right;
-	int top;
-	int bottom;
+    t_sprite* sprite;          // sprite qui sera affiché
+    t_sprite* glow_sprite;     // sprite de la lueur autour de l'entité
 
-	// divers compteurs pour l'animation
-	int frame_nb;
-	int compteur;
-	int compteur_anim;
-	int anim_index;
-	int anim_speed;
+    t_sprite* spritesheet[SHEET_LEN];      // feuille de sprite principale
+    t_sprite* glow_spritesheet[SHEET_LEN]; // feuille de sprite de la lueur
 
-	// information pour le missile
-	tuple missile_pos;
-	int missile;
-	t_sprite* missile_sprite;
+    // vaut 1 si il faut afficher une leur, vaut 0 par défaut
+    int glowing;
 
-	// les points de vie de l'entité
-	int alive;
+    // permet de définir les positions des contours externes de l'entité
+    int left;
+    int right;
+    int top;
+    int bottom;
+
+    // divers compteurs pour l'animation
+    int frame_nb;
+    int compteur;
+    int compteur_anim;
+    int anim_index;
+    int anim_speed;
+
+    // information pour le missile
+    tuple missile_pos;
+    int missile;
+    t_sprite* missile_sprite;
+
+    // les points de vie de l'entité
+    int alive;
 
 
 } entity;
