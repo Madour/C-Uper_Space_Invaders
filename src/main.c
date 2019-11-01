@@ -74,7 +74,7 @@ int main(int argc, char const *argv[])
 
 
     // Bloc Lecture du fichier audio
-    const char* audiofile = "assets/boss2.ogg";
+    const char* audiofile = "assets/bgm.ogg";
     int volume = 128;
     int audio_fade_out = 0;
     printf("initialisation audio ...\n");
