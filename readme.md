@@ -7,19 +7,20 @@
     * Up arrow/Space bar to shoot
 * Player 2:
     * Left Control to join
-    *
+    * S and G to move
+    * E to shoot
 
 ---
 ### Platforms
 
 #### Linux et MacOS
-Il suffit d'installer les dépendances pour pouvoir compiler.
+Install dependencies and you should be able to compile and run.
 
 #### Windows
-Pour compiler sur windows, il vous faudra :
-- Un environnement Unix (via Cygwin par exemple)
-- Installer les dépendances
-- Démarrer un serveur X (XWin Server, installé automatiquement avec Cygwin) avant d'executer le programme compilé
+To compile for windows, you'll need :
+- A Unix like environment  (via Cygwin for example)
+- Install dependencies
+- Start a X server (XWin Server, installed with cygwin automatically) before running the game
 
 ---
 
@@ -28,32 +29,33 @@ Pour compiler sur windows, il vous faudra :
 - SDL_mixer
 
 ### Compilation
-Se placer à la racine du répertoire et lancer la commande `make`
+Open terminal in project root and run `make`
 
-Si tout se passe bien, un executable "space" sera genéré
+If evverything goes well, you'll get a executable file called "space" 
 
 
 ### Execution
-Ouvrez un terminal à la racine du répertoire et lancez la commande `./space`
+Open a terminal in project root and run `./space`
 
-Si vous voulez jouer au niveau 4 par exemple, lancez la commande `./space 4`
+If you want to start game at wave 4 for example, just run `./space 4`
 
-Une surprise vous attend à la fin du jeu si vous arrivez à vaincre la Final Wave ;)
+Keep playing until the Final Wave, there's a surprise at the end ;)
 
 ### Troubleshooting
 
-- Si le compilateur ne trouve pas les librairies :
-	1. ouvrir le fichier src/makefile
-	2. modifier la variable LIBS_PATH en ajoutant le chemin vers les lib (ne pas oublier `-L`)
+- If gcc is unable to find the libs :
+	1. open src/makefile
+	2. add  `/path/to/libs` to LIBS_PATH variable (don't forget `-L`)
 
-- Si make vous renvoie l'erreur "Clock skew detected":
-	1. lancez la commande `make clean`
-	2. lancez la commande `find src -exec touch \{\} \;`
-	3. recompilez avec la commande `make`
+- If make command returns a "Clock skew detected" error:
+	1. run `make clean`
+	2. then `find src -exec touch \{\} \;`
+	3. and re-compile again with `make`
 ---
 
 ### Todo
 
 - [x] Implement 2 players
 - [ ] Add a main menu
+- [ ] Add story !
 - [ ] Add power ups
