@@ -17,22 +17,18 @@
 #ifndef __AFFICHAGE_H__
 #define __AFFICHAGE_H__
 #include <time.h>
+#include "typedefs.h"
 
-/* Définition d'un sprite
-un sprite est définie par un tableau de 0 et de 1.
-Les sprites sont de taille fixe (ici 11x8) et en une seule couleur */
-#define SPRITE_X 11
-#define SPRITE_Y 8
-#define SHEET_LEN 5 // taille maximum d'une feuille de sprite
+
 #define RATIO 4 // un pixel est affiché sur 4x4 pixels
 
 #define WIN_W 400
-#define WIN_H 644
+#define WIN_H 640
 
 #define RIGHT_BOUNDARY 380 // limite droite de l'écran
 #define LEFT_BOUNDARY 20 // limite gauche de l'écran
 
-#define INPUT_SIZE 4
+
 #define KEY_LEFT 1
 #define KEY_RIGHT 2
 #define KEY_SPACE 3
@@ -40,38 +36,21 @@ Les sprites sont de taille fixe (ici 11x8) et en une seule couleur */
 int input_list[2][INPUT_SIZE];
 int free_inputs[2];
 
-typedef int t_sprite[SPRITE_Y][SPRITE_X];
 
-typedef int t_spritesheet[SHEET_LEN][SPRITE_Y][SPRITE_X];
-
-// type tuple, pour stocker des coordonnés de position entre autre
-typedef struct 
-{
-  int x;
-  int y;
-} tuple;
 
 /* constantes des couleurs */
-#define BLANC 0
-#define NOIR 1
-#define ROUGE 2
-#define VERT 3
-#define BLEU 4
+#define WHITE 0
+#define BLACK 1
+#define RED 2
+#define GREEN 3
+#define BLUE 4
 #define ORANGE 5
 #define VIOLET 6
-#define JAUNE 7
-#define ROSE 8
-#define GRISCLAIR 9
-#define GRISFONCE 10
+#define YELLOW 7
+#define PINK 8
+#define LIGHTGREY 9
+#define DARKGREY 10
 
-typedef struct {
-    int width;
-    int height;
-    int is_open;
-    int update_rate;
-    int input_list[2][INPUT_SIZE];
-    int players_nb;
-} new_game;
 
 new_game game;
 /* Fonction initAffichage
@@ -80,7 +59,7 @@ Paramètres:
   - L : largeur (en X) de la fenêtre
   - H : hauteur (en Y) de la fenêtre
 Retour: renvoit 0 si tout c'est bien passé, et -1 en cas d'erreur */
-int initAffichage(int L, int H);
+int initDisplay(int L, int H);
 
 
 /* Fonction "afficheSprite"
@@ -97,7 +76,8 @@ int getInputs();
 
 int updateWindow();
 
-void defilerFond(int vit_x, int vit_y);
+void scrollBackground(int vit_x, int vit_y);
+void correctBackground();
 
 int in_input_list(int key, int player_nb);
 int get_input_index(int key, int player_nb);

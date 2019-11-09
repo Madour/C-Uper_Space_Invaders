@@ -1,6 +1,15 @@
 # C-uper Space Invaders :rocket: 
 
+#### A remake of the classic arcade game written in C language.
+##### Controls:
+* Player 1:
+    * Left and right arrows to move
+    * Up arrow/Space bar to shoot
+* Player 2:
+    * Left Control to join
+    *
 
+---
 ### Platforms
 
 #### Linux et MacOS

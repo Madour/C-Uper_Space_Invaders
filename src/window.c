@@ -57,15 +57,21 @@ new_game game = {
         .update_rate = 50,
         .is_open = 1,
         .input_list = {{},{}},
-        .players_nb = 1
+        .players_nb = 1,
+        .finished_game = 0,
+        .show_wave_nb = 1,
+        .paused = 0,
+        .game_over = 0,
+        .background_scroll_speed = 2,
+        .counter = 0
 };
 
-/* Fonction "alloueCouleur"
+/* Fonction "allocateColor"
    Allocation d'une couleur dans la ColorMap
 Paramètres : red,green,blue : quantité (16bits) de rouge,vert et bleu qui compose la couleur
 Retour: renvoit un entier non signé identifiant la couleur dans la ColorMap
 */
-unsigned int alloueCouleur( int red, int green, int blue)
+unsigned int allocateColor( int red, int green, int blue)
 {
     XColor coul;
     coul.green = green;
@@ -82,7 +88,7 @@ Paramètres:
   - H : hauteur (en Y) de la fenêtre
 Retour: renvoit 0 si tout c'est bien passé, et -1 en cas d'erreur
 */
-int initAffichage(int L, int H)
+int initDisplay(int L, int H)
 {
     int i,x,y;
     unsigned int gris[8];
@@ -118,18 +124,18 @@ int initAffichage(int L, int H)
 
     /* crée la table de couleur */
     for( i=0; i<7; i++)
-        gris[i] = alloueCouleur( 0xFFFF>>i, 0xFFFF>>i, 0xFFFF>>i );
-    colors[BLANC] = alloueCouleur( 0xFFFF, 0xFFFF, 0xFFFF);
-    colors[NOIR] = alloueCouleur( 0,0,0);
-    colors[ROUGE] = alloueCouleur( 0xFFFF,0,0);
-    colors[VERT] = alloueCouleur( 0,0xFFFF,0);
-    colors[BLEU] = alloueCouleur( 0,0,0xFFFF);
-    colors[ORANGE] = alloueCouleur( 0xFFFF,0x9999,0x3333);
-    colors[VIOLET] = alloueCouleur( 0x8A8A, 0x2B2B, 0xE2E2);
-    colors[JAUNE] = alloueCouleur( 0xFFFF,0xFFFF,0);
-    colors[ROSE] = alloueCouleur( 0xFFFF,0x9999,0xFFFF);
-    colors[GRISCLAIR] = alloueCouleur( 0xDDDD,0xDDDD,0xDDDD);
-    colors[GRISFONCE] = alloueCouleur( 0x6666,0x6666,0x6666);
+        gris[i] = allocateColor( 0xFFFF>>i, 0xFFFF>>i, 0xFFFF>>i );
+    colors[WHITE] = allocateColor( 0xFFFF, 0xFFFF, 0xFFFF);
+    colors[BLACK] = allocateColor( 0,0,0);
+    colors[RED] = allocateColor( 0xFFFF,0,0);
+    colors[GREEN] = allocateColor( 0,0xFFFF,0);
+    colors[BLUE] = allocateColor( 0,0,0xFFFF);
+    colors[ORANGE] = allocateColor( 0xFFFF,0x9999,0x3333);
+    colors[VIOLET] = allocateColor( 0x8A8A, 0x2B2B, 0xE2E2);
+    colors[YELLOW] = allocateColor( 0xFFFF,0xFFFF,0);
+    colors[PINK] = allocateColor( 0xFFFF,0x9999,0xFFFF);
+    colors[LIGHTGREY] = allocateColor( 0xDDDD,0xDDDD,0xDDDD);
+    colors[DARKGREY] = allocateColor( 0x6666,0x6666,0x6666);
 
     int depth = XDefaultDepth (display, screen);
     /* crée le pixmap dans lequel on va tout dessiner */
@@ -214,8 +220,7 @@ void afficheSprite( t_sprite sprite, int x, int y, int color_index)
         }
 }
 
-
-void defilerFond(int vit_x, int vit_y)
+void scrollBackground(int vit_x, int vit_y)
 {
     bg_stars1_x+=vit_x;
     bg_stars1_y+=vit_y;
@@ -234,6 +239,16 @@ void defilerFond(int vit_x, int vit_y)
 
     if (bg_stars2_x >= Largeur)
         bg_stars2_x=-Largeur;
+}
+
+void correctBackground()
+{
+    bg_stars1_y = 0; bg_stars2_y = -Hauteur;
+    /*if(abs(bg_stars1_y - bg_stars2_y) > Hauteur)
+    {
+        int* p_tmp = (bg_stars2_y>bg_stars1_y? &bg_stars2_y: &bg_stars1_y);
+        *p_tmp -= abs(bg_stars1_y - bg_stars2_y)-Hauteur;
+    }*/
 }
 
 int in_input_list(int key, int player_nb)
@@ -307,29 +322,35 @@ int getInputs()
                 // player 2 inputs
                 if(free_inputs[1])
                 {
-                    if (XLookupKeysym(&e.xkey, 0) == XK_q) {
+                    if (XLookupKeysym(&e.xkey, 0) == XK_s) {
                         if (!in_input_list(KEY_LEFT, 1)) {
                             game.input_list[1][INPUT_SIZE - free_inputs[1]] = KEY_LEFT;
                             free_inputs[1]--;
                         }
                         break;
-                    } else if (XLookupKeysym(&e.xkey, 0) == XK_d) {
+                    } else if (XLookupKeysym(&e.xkey, 0) == XK_f) {
                         if (!in_input_list(KEY_RIGHT, 1)) {
                             game.input_list[1][INPUT_SIZE - free_inputs[1]] = KEY_RIGHT;
                             free_inputs[1]--;
                         }
                         break;
-                    } else if (XLookupKeysym(&e.xkey, 0) == XK_z) {
+                    } else if (XLookupKeysym(&e.xkey, 0) == XK_e) {
                         if (!in_input_list(KEY_SPACE, 1)) {
                             game.input_list[1][INPUT_SIZE - free_inputs[1]] = KEY_SPACE;
                             free_inputs[1]--;
                         }
                         break;
                     } else if(XLookupKeysym(&e.xkey, 0) == XK_Control_L) {
-                        if(game.players_nb < 2) game.players_nb++;
+                        if(game.players_nb < 2 && !game.game_over) game.players_nb++;
                     }
                 }
-                if (XLookupKeysym(&e.xkey, 0) == XK_Escape) {
+                if (XLookupKeysym(&e.xkey, 0) == XK_p) {
+                    if(!game.paused)
+                        game.paused = 2;
+                    else
+                        game.paused = 0;
+                }
+                else if (XLookupKeysym(&e.xkey, 0) == XK_Escape) {
                     /*XFreeGC(display, gc);*/
                     XDestroyWindow(display, w);
                     XCloseDisplay(display);
@@ -363,21 +384,21 @@ int getInputs()
                     break;
                 }
                 // player 2 inputs
-                if (XLookupKeysym(&e.xkey, 0) == XK_q) {
+                if (XLookupKeysym(&e.xkey, 0) == XK_s) {
                     if (in_input_list(KEY_LEFT, 1))
                     {
                         pop(game.input_list[1], get_input_index(KEY_LEFT, 1));
                         free_inputs[1]++;
                     }
                     break;
-                } else if (XLookupKeysym(&e.xkey, 0) == XK_d) {
+                } else if (XLookupKeysym(&e.xkey, 0) == XK_f) {
                     if (in_input_list(KEY_RIGHT, 1))
                     {
                         pop(game.input_list[1], get_input_index(KEY_RIGHT, 1));
                         free_inputs[1]++;
                     }
                     break;
-                } else if (XLookupKeysym(&e.xkey, 0) == XK_z) {
+                } else if (XLookupKeysym(&e.xkey, 0) == XK_e) {
                     if (in_input_list(KEY_SPACE, 1)){
                         pop(game.input_list[1], get_input_index(KEY_SPACE, 1));
                         free_inputs[1]++;
