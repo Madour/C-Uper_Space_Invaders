@@ -11,7 +11,7 @@
 |------------------------------------------------------|
 | Compilation :                                        |
 |   - generation du .o :                               |
-|   	  $ gcc -c entities.c                          |
+|         $ gcc -c entities.c                          |
 |                                                      |
 \______________________________________________________/
 
@@ -44,12 +44,15 @@ void create_player(entity* entity, tuple pos)
     entity->glow_sprite = &player_glow_spritesheet[0];
     entity->glowing = 1;
 
-    // pour augmenter la difficulté,le joueur ne pourra utiliser
-    // qu'un missile a la foi, ça évitera les comportement de type
-    // "spamer le bouton espace"
-    entity->missile = 0;
-    entity->missile_pos = pos;
-    entity->missile_sprite = &missile_sprite;
+    entity->shoot_rate = 5;
+    entity->max_missile = 3;
+    for(int i=0; i< entity->max_missile; i++)
+    {
+        entity->missile[i] = 0;
+        entity->missile_pos[i] = entity->pos;
+        entity->missile_sprite[i] = &missile_sprite;
+    }
+    entity->missile_color = YELLOW;
 
     entity->left = pos.x;
     entity->right = pos.x+entity->size.x;
@@ -59,7 +62,7 @@ void create_player(entity* entity, tuple pos)
     entity->anim_index = 0;
     entity->anim_speed = 15;
     entity->compteur_anim = 0;
-    entity->compteur = 0;
+    entity->compteur = 15;
     entity->alive = 10;
 }
 
@@ -95,10 +98,6 @@ void moveEntity(entity *entity, int input, int xstep)
     {
         step_x += xstep;
     }
-    else if(input == 3)
-    {
-        entity->missile = 1;
-    }
 
     entity->pos.x += step_x;
     entity->pos.y += step_y;
@@ -124,31 +123,55 @@ void moveEntity(entity *entity, int input, int xstep)
 
 
     // mise a jour des pos du missile s'il existe
-    if (entity->missile)
-    {
-        if (entity->type == PLAYER)
+    for (int i = 0; i < entity->max_missile; ++i) {
+        if (entity->missile[i])
         {
-            if (entity->missile_pos.y <= 20)
+            if (entity->type == PLAYER)
             {
-                entity->missile = 0;
-                entity->missile_pos = entity->pos;
+                entity->missile_pos[i].y -= 25;
+
+                if (entity->missile_pos[i].y <= 20)
+                {
+                    entity->missile[i] = 0;
+                    entity->missile_pos[i] = entity->pos;
+                    entity->missile_count--;
+                }
             }
-            entity->missile_pos.y -= 25;
+            else if(entity->type == ALIEN)
+            {
+                entity->missile_pos[i].y += 20;
+
+                if (entity->missile_pos[i].y >= 560)
+                {
+                    entity->missile[i] = 0;
+                    entity->missile_pos[i] = entity->pos;
+                    entity->missile_count--;
+                }
+            }
+
         }
-        else if(entity->type == ALIEN)
-        {
-            if (entity->missile_pos.y >= 560)
-            {
-                entity->missile = 0;
-                entity->missile_pos = entity->pos;
+        else{
+            entity->missile_pos[i].x = entity->pos.x;
+            entity->missile_pos[i].y = entity->pos.y;
+        }
+    }
+
+}
+
+void entityShoot(entity *entity)
+{
+    if(entity->missile_count < entity->max_missile)
+    {
+        for (int m = 0; m < entity->max_missile; ++m) {
+            if(! entity->missile[m]) {
+                entity->missile[m] = 1;
+                entity->missile_sprite[m] = &missile_sprite;
+                entity->missile_count++;
+                entity->compteur = 0;
+                break;
             }
-            entity->missile_pos.y += 20;
         }
 
-    }
-    else{
-        entity->missile_pos.x = entity->pos.x;
-        entity->missile_pos.y = entity->pos.y;
     }
 }
 
@@ -165,6 +188,42 @@ void animEntity(entity *entity, int animspeed)
         }
     }
     entity->compteur_anim+=1;
+}
+
+void drawEntity(entity *entity)
+{
+    // affichage des sprites du joueur (flame du reacteur et le vaisseau)
+    int tmp = (entity->compteur_anim % 6 >= 3 ? 1 : 0);
+    if (!game.finished_game && entity->type == PLAYER)
+        afficheSprite(player_reactor[tmp], entity->pos.x, entity->pos.y + 5 * RATIO, WHITE);
+    afficheSprite(*entity->sprite, entity->pos.x, entity->pos.y, entity->color);
+
+    // un clignotement indicateur de l'etat de santé du vaisseau, devient
+    // plus frequent quand peu de point de vie restant
+    if (entity->glowing && entity->type == PLAYER) {
+        if (entity->alive == 1) {
+            if (entity->compteur_anim % 2 == 0)
+                afficheSprite(*entity->glow_sprite, entity->pos.x, entity->pos.y, WHITE);
+        } else if (entity->alive <= 3) {
+            if (entity->compteur_anim % 4 == 0)
+                afficheSprite(*entity->glow_sprite, entity->pos.x, entity->pos.y, WHITE);
+        } else if (entity->alive <= 5) {
+            if (entity->compteur_anim % 6 == 0)
+                afficheSprite(*entity->glow_sprite, entity->pos.x, entity->pos.y, WHITE);
+        }
+    }
+    else if (entity->compteur_anim % 3 == 0 && entity->glowing && entity->type == ALIEN)
+        afficheSprite(*entity->glow_sprite, entity->pos.x, entity->pos.y, WHITE);
+}
+
+void drawEntityMissiles(entity *entity)
+{
+    for (int i = 0; i < entity->max_missile; ++i) {
+        if (entity->missile[i])
+            afficheSprite(*entity->missile_sprite[i],
+                          entity->missile_pos[i].x, entity->missile_pos[i].y,
+                          entity->missile_color);
+    }
 }
 
 int intersect(tuple missile_pos, entity* target){

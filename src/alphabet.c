@@ -17,7 +17,6 @@
 */
 
 #include "alphabet.h"
-#include <stdio.h>
 
 t_sprite spr_space = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -214,14 +213,14 @@ t_sprite spr_R = {
 };
 
 t_sprite spr_S = {
-    {0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-    {1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+    {0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+    {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-    {1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-    {0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+    {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+    {0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
 };
 
 t_sprite spr_T = {
@@ -413,38 +412,3 @@ t_sprite spr_interrogation = {
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 };
-
-void displayMessage(char* message, tuple pos, int color)
-{
-    for(int i=0; i < strlen(message); i++)
-    {
-        char l = message[i];
-        if (l == ' ')
-        {
-            afficheSprite(spr_space, pos.x, pos.y, color);
-            pos.x += 6*RATIO;
-        }
-        else if(l=='?')
-        {
-            afficheSprite(spr_interrogation, pos.x, pos.y, color);
-            pos.x += 6*RATIO;
-        }
-        else if(l=='0')
-        {
-            afficheSprite(*numbers[0], pos.x, pos.y, color);
-            pos.x += 6*RATIO;
-        }
-
-        else if(l=='1' || l=='2' || l=='3' || l=='4' || l=='5' ||l=='6' || l=='7' || l=='8' || l=='9')
-        {
-            afficheSprite(*numbers[l-'0'], pos.x, pos.y, color);
-            pos.x += 5*RATIO;
-        }
-
-        else
-        {
-            afficheSprite(*alphabet[l-'A'], pos.x, pos.y, color);
-            pos.x += 8*RATIO;
-        }
-    }
-}

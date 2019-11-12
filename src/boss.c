@@ -10,8 +10,8 @@ void create_boss(t_boss* boss)
     boss->velocity.y = 2;
     boss->direction = 1;
 
-    boss->color = BLEU;
-    boss->glow_color = BLEU;
+    boss->color = BLUE;
+    boss->glow_color = BLUE;
     boss->glowing = 0;
 
     for (int y = 0; y < BOSS_SPRITES_COUNT_Y; ++y)
@@ -65,7 +65,7 @@ void afficheBoss(t_boss* boss)
     {
         if (boss->missile[i])
         {
-            afficheSprite(missile_sprite, boss->missile_pos[i].x, boss->missile_pos[i].y, ROUGE);
+            afficheSprite(missile_sprite, boss->missile_pos[i].x, boss->missile_pos[i].y, RED);
         }
     }
 }
@@ -89,23 +89,20 @@ void animBoss(t_boss* boss)
     boss->compteur_anim+=1;
 }
 
-void moveBoss(t_boss* boss, int player_life)
+void moveBoss(t_boss* boss)
 {
-    if(!player_life)
-        if(boss->pos[0][0].y < WIN_H)
-        {
-            for (int y = 0; y < BOSS_SPRITES_COUNT_Y; ++y)
-                for (int x = 0; x < BOSS_SPRITES_COUNT_X; ++x)
-                    boss->pos[y][x].y += boss->velocity.y*4;
-        }
 
     if (boss->triggered)
     {
         // mouvement du boss
-        if(player_life)
+        if(game.game_over != game.players_nb)
             for (int y = 0; y < BOSS_SPRITES_COUNT_Y; ++y)
                 for (int x = 0; x < BOSS_SPRITES_COUNT_X; ++x)
                     boss->pos[y][x].x += boss->velocity.x*boss->direction;
+        else
+            for (int y = 0; y < BOSS_SPRITES_COUNT_Y; ++y)
+                for (int x = 0; x < BOSS_SPRITES_COUNT_X; ++x)
+                    boss->pos[y][x].y += boss->velocity.y*4;
 
         boss->left = boss->pos[0][0].x;
         boss->right = boss->pos[0][0].x+boss->size.x;

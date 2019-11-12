@@ -33,8 +33,8 @@ Colormap color_map;
 Atom wmDeleteMessage;
 
 /* Pixmap */
-Pixmap pix;         /* pixmap général sur lequel on écrit tout */
-Pixmap clear;       /* pixmap tout noir, permet de clear pix a chaque frame */
+Pixmap pix;             /* pixmap général sur lequel on écrit tout */
+Pixmap clear;           /* pixmap tout noir, permet de clear pix a chaque frame */
 Pixmap bg_stars1;       /* pixmap avec juste le fond */
 Pixmap bg_stars2;       /* pixmap avec juste le fond */
 
@@ -42,7 +42,7 @@ Pixmap bg_stars2;       /* pixmap avec juste le fond */
 unsigned int colors[11];
 
 /* Variables communes */
-int init=0;                 /* permet de savoir si on a lancé InitAffichage */
+int init=0;                 /* permet de savoir si on a appelé initDisplay */
 int Largeur, Hauteur;       /* taille de l'affichage */
 int bg_stars1_x=0, bg_stars1_y=0;
 int bg_stars2_x=0, bg_stars2_y=0;

@@ -2,9 +2,6 @@
 #define __SPRITES_H__
 
 #include "window.h"
-#define BOSS_SPRITES_COUNT_X 3
-#define BOSS_SPRITES_COUNT_Y 2
-
 
 t_sprite missile_sprite;
 t_sprite impact_sprite;

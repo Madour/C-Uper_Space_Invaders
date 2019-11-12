@@ -47,7 +47,4 @@ t_sprite spr_interrogation;
 t_sprite* alphabet[26];
 t_sprite* numbers[10];
 
-// affiche un message alphanumérique à l'ecran, n'accepte que les lettres majuscules
-void displayMessage(char* message, tuple pos, int color);
-
 #endif

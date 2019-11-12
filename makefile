@@ -8,6 +8,9 @@ all: build
 build:
 	$(MAKE) -C src
 
+debug:
+	$(MAKE) debug -C src
+
 clean:
 	$(MAKE) -C src clean
 

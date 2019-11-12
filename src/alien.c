@@ -11,7 +11,7 @@
 |------------------------------------------------------|
 | Compilation :                                        |
 |   - generation du .o :                               |
-|   	  $ gcc -c alien.c                             |
+|         $ gcc -c alien.c                             |
 |                                                      |
 \______________________________________________________/
 
@@ -45,9 +45,14 @@ void create_alien(entity* entity, tuple pos, int id)
 
     entity->glowing = 0;
 
-    entity->missile = 0;
-    entity->missile_pos = pos;
-    entity->missile_sprite = &missile_sprite;
+    entity->max_missile = 1;
+    for(int i=0; i< entity->max_missile; i++)
+    {
+        entity->missile[i] = 0;
+        entity->missile_pos[i] = entity->pos;
+        entity->missile_sprite[i] = &missile_sprite;
+    }
+    entity->missile_color = ORANGE;
 
     entity->left = pos.x;
     entity->right = pos.x+entity->size.x;
@@ -55,7 +60,7 @@ void create_alien(entity* entity, tuple pos, int id)
     entity->bottom = pos.y+entity->size.y;
 
     entity->anim_index = 0;
-    entity->anim_speed = 10;
+    entity->anim_speed = aliens_animspeed[id];
     entity->compteur_anim = 0;
     entity->compteur = 0;
     entity->alive = 1;
@@ -72,6 +77,7 @@ void deplacerAlien(entity* alien, int xstep, int ystep, int side){
     else if (alien->compteur == 25 - (xstep-2)*4 && side == 1)
     {
         alien->pos.y += ystep;
+        moveEntity(alien, 0, 0);
     }
     // deplacer a gauche
     else if (alien->compteur > 25 - (xstep-2)*4)
@@ -84,6 +90,7 @@ void deplacerAlien(entity* alien, int xstep, int ystep, int side){
         if (side == 2)
         {
             alien->pos.y += ystep;
+            moveEntity(alien, 0, 0);
         }
         alien->compteur = 0;
     }
