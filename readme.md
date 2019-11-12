@@ -7,7 +7,7 @@
     * Up arrow/Space bar to shoot
 * Player 2:
     * Left Control to join
-    * S and G to move
+    * S and F to move
     * E to shoot
 
 ---
