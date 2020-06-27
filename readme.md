@@ -11,7 +11,7 @@ This game was one of my first projects in C, it contains bad code, don't look at
 
 ##### Sreenshots
 
-[[screenshots.png]]
+![Screenshots](screenshots.png?raw=true)
 
 ##### Controls:
 
