@@ -1,7 +1,7 @@
 #ifndef __TYPEDEFS_H__
 #define __TYPEDEFS_H__
 
-#include <SDL2/SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

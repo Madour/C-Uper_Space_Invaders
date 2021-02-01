@@ -67,10 +67,10 @@ int main(int argc, char const *argv[])
     int volume = 128;
     int audio_fade_out = 0;
     printf("initialisation audio ...\n");
-    //Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
     printf("terminé.\n");
-    //Mix_Music* bgm = Mix_LoadMUS(audiofile);
-    //Mix_PlayMusic(bgm, -1);
+    Mix_Music* bgm = Mix_LoadMUS(audiofile);
+    Mix_PlayMusic(bgm, -1);
     // fin de lecture
 
     // if user tries to select a level :
@@ -255,10 +255,10 @@ int main(int argc, char const *argv[])
                             boss.glowing = 1;
                             boss.glow_color = BLACK;
                             audiofile = "assets/boss.ogg";
-                            //bgm = Mix_LoadMUS(audiofile);
-                            //Mix_PlayMusic(bgm, -1);
+                            bgm = Mix_LoadMUS(audiofile);
+                            Mix_PlayMusic(bgm, -1);
                             volume = 128;
-                            //Mix_VolumeMusic(volume);
+                            Mix_VolumeMusic(volume);
                             audio_fade_out = 0;
                         } else if (boss.ready) {
                             boss.alive -= 1;

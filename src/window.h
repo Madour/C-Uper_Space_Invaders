@@ -33,8 +33,8 @@
 #define KEY_RIGHT 2
 #define KEY_SPACE 3
 
-int input_list[2][INPUT_SIZE];
-int free_inputs[2];
+extern int input_list[2][INPUT_SIZE];
+extern int free_inputs[2];
 
 
 
@@ -52,7 +52,7 @@ int free_inputs[2];
 #define DARKGREY 10
 
 
-new_game game;
+extern new_game game;
 /* Fonction initAffichage
 But: Permet d'initialiser tout l'affichage X11, de créer la fenêtre, les pixmap, les couleurs, etc...
 Paramètres:

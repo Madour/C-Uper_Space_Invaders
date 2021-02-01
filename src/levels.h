@@ -5,19 +5,19 @@
 
 
 // les informations nécessaires pour chargr un niveau, décrivent les aliens
-wave wave_init;
-wave wave0;
-wave wave1;
-wave wave2;
-wave wave3;
-wave wave4;
-wave wave5;
-wave wave6;
-wave wave7;
-wave wave_boss;
-wave wave9;
+extern wave wave_init;
+extern wave wave0;
+extern wave wave1;
+extern wave wave2;
+extern wave wave3;
+extern wave wave4;
+extern wave wave5;
+extern wave wave6;
+extern wave wave7;
+extern wave wave_boss;
+extern wave wave9;
 
-wave* waves_list[MAX_LEVELS];
+extern wave* waves_list[MAX_LEVELS];
 
 
 // permet de charger un niveau et de generer les aliens et boucliers

@@ -264,11 +264,12 @@ int get_input_index(int key, int player_nb)
     for(int i=0; i<INPUT_SIZE; i++)
         if(key == game.input_list[player_nb][i])
             return i;
-    return NULL;
+    return -1;
 }
 
 void pop(int list[INPUT_SIZE], int index)
 {
+    if (index == -1) return;
     for (int i = index; i < INPUT_SIZE-1; ++i)
         list[i] = list[i+1];
 }

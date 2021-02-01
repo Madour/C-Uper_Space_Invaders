@@ -281,11 +281,11 @@ t_sprite spr_Y = {
 
 t_sprite* alphabet[26] = {
     &spr_A, &spr_B, &spr_C, &spr_D, &spr_E,
-    &spr_F, &spr_G, &spr_H, &spr_I, &spr_J,
+    &spr_F, &spr_G, &spr_H, &spr_I, NULL,
     &spr_K, &spr_L, &spr_M, &spr_N, &spr_O,
-    &spr_P, &spr_Q, &spr_R, &spr_S, &spr_T,
-    &spr_U, &spr_V, &spr_W, &spr_X, &spr_Y,
-    &spr_Z
+    &spr_P, NULL, &spr_R, &spr_S, &spr_T,
+    &spr_U, &spr_V, &spr_W, NULL, &spr_Y,
+    NULL
 };
 
 t_sprite spr_0 = {
